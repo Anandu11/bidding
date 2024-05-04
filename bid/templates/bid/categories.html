@@ -1,0 +1,16 @@
+{% extends "bid/layout.html" %}
+
+{% block body %}
+
+<h2 style="text-align: center;">Categories</h2>
+<table style="margin-left:50px; font-size: 20px;">
+    <thead>
+        {% for category in categories %}
+        <tr class="tabletr">
+            <td class="links"><a href="{% url 'category' category %}">{{ category }}</a></td>
+        </tr>
+        {% endfor %}
+    </thead>
+    <hr>
+</table>
+{% endblock %}

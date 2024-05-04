@@ -1,0 +1,160 @@
+{% extends "bid/layout.html" %}
+
+{% block title %}
+{{listing.product_name}}
+{% endblock %}
+
+{% block body %}
+<div class="row listing-page-end-result" style="margin-left:50px;">
+    <div class="col-12">
+        {% if listing.closed %}
+        {% if owner %}
+        {% if listing.current_winning_bidder %}
+        <div>Your product is SOLD to {{ listing.current_winning_bidder }}</div>
+        {% else %}
+        <div> Auction has been closed</div>
+        {% endif %}
+        {% else %}
+        {%  if listing.current_winning_bidder == user %}
+        <div><strong>Congratulations on winning this auction</strong></div>
+        {% else %}
+        <div><strong style="color: blue;">An outsider  has won this auction</strong></div>
+        {% endif %}
+        {% endif %}
+        {% else %}
+        
+            {% endif %}
+    </div>
+</div>
+<main class="container text-center">
+    <div class="left-column">
+        <img src="{{ listing.image.url }}" alt=" Image" style="width:60%" class="disp_list">
+        
+
+        
+    </div>
+
+    <div class="right-column" style="text-align: justify;">
+                    {% if user.is_authenticated %}
+                    <br>
+                    <div class="col-2" style="text-align: center;">
+                        <form action="{% url 'watchlist' listing.pk %}" method="POST">
+                            {% csrf_token %}
+                            <div class="watchicon"> 
+                             {% if is_watchlist %}
+                                <button style="font-family:verdana ; background-color: blue; color: white;font-size:15px;" type="submit" class="btn btn-outline-primary btn-sm"> Watchlist</button>
+                                {% else %}
+                                <button style="font-family:verdana ; background-color:red; color: white;font-size:15px;"type="submit" class="btn btn-outline-secondary btn-sm">Add to Watchlist</button>
+                                {%endif%}
+                            </div>
+                        </form>                              
+                    </div>
+                    {% else %}
+                    <p> You are required to Log In to add items to your watchlist</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="product-description">
+        <br>
+            <a href="{% url 'category' listing.category %}"><span>Category: {{listing.category}}</span></a>
+           <h2
+                style="font-family:-apple-system, 'Segoe UI', sans-serif; color:red">
+                {{listing.product_name}}</h2>
+            </br>
+            <div class="panel-footer">
+            <p>{{listing.description}}</p>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+            <br>
+                <span>Created on {{listing.date_time}}</span>
+                <hr>
+                <div class="bids">
+                    Number of Bids: <strong style="color: red;">{{ listing.no_of_bids }}</strong>
+                </div>
+                <div class="product-price">
+                Starting Bid: ₹ {{listing.price}}
+                </div>
+                </br>
+            </div> 
+            <br>   
+            <span style="font-size: 20px;">Current Bid: ₹ {{ listing.current_price }}</span>
+            </br>
+        </div>
+
+        <div class="listing-page-bid-section" style="font-family: Arial, Helvetica, sans-serif;">
+            <h5 style="text-align:center;">Enter Your Bid: </h5>
+            {% if user.is_authenticated %}
+            {%  if listing.closed %}
+            <p class="listing-closed-info">This listing has been closed!</p>
+            {% endif %}
+            <fieldset {% if listing.closed %} disabled class="disabled" {% endif %}>
+                <form method="post" action="{% url 'createbid' listing.pk %}">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}: </label>
+                        <div class="col-9" id="bid-box">
+                            {{ field }}
+                            {{ field.errors }}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button style="background-color:red; font-family:verdana ; font-size:16px; color: white;"type="submit" class="btn btn-outline-primary">Make Bid</button>
+                </form>
+            </fieldset>
+            {% else %}
+            
+            <div class="panel-footer">
+                {% if listing.closed %}
+                <p>This item listing has been closed!</p>
+                {% else %}                
+                    <p style="margin-left:100px; font-weight:bold; font-size: 17px;">Sign in is required to bid on this item</p>
+            </div>
+                {% endif %}
+            {% endif %}
+
+        </div>
+
+        </br> </br>
+
+</main>
+<hr>
+<h3 style="margin-left:70px;">Comments</h3>
+    {% for comment in listing.comments.all %}
+    <br>
+        <div class="col" style="margin-left: 100px;">
+            <h6 style="font-size:16px;"><strong style="color: red;">{{ comment.author }}</strong> commented</h6><p style="font-size:15px;"> {{ comment.body }}</p>
+        </div>
+    {% endfor %}
+        {%if user.is_authenticated %}
+        <form action="{% url 'comment' listing.pk %}" method="POST" class="form-inline">
+        {% csrf_token %}
+        <br><br>
+        <textarea id="comment"  name="comment" placeholder="Comment away "></textarea>
+        <button class="btn btn-danger" type="submit" value="Submit" style="font-family:verdana ;margin-left:20px; margin-bottom:50px; font-size:17px;">Send</button>
+        </form>
+
+        {% else %}
+        <p style="margin-left:100px; font-weight:bold; font-size: 17px;">Sign in to comment</p>
+        {%endif%}
+    </div>
+    </br>
+    {%  if owner %}
+
+    {% if not listing.closed %}
+    <form class="row listing-page-bid-close-section" method="POST" action="{% url 'closelisting' listing.pk %}">
+        {%  csrf_token %}
+        <button class="btn btn-outline-danger" style="font-family:verdana ;background-color: red;color:white; margin-left: 300px; width: 50%;font-size:17px;">Close Listing</button>
+    </form>
+    {% endif %}
+
+
+    {% endif %}
+
+
+
+    <hr />
+
+    {% endblock %}

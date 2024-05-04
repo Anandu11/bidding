@@ -1,0 +1,45 @@
+{% extends "bid/layout.html" %}
+{% block body %}
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+<div class="register-box" style="margin-left: 50px;">
+    <h2>Register</h2>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+
+        <div class="text">
+            <i class="material-icons md-24">First Name</i><input class="form-control" autofocus type="text"
+                name="first name" placeholder="First Name">
+        </div>
+        <div class="text">
+            <i class="material-icons md-24">Last Name</i><input class="form-control" autofocus type="text"
+                name="last name" placeholder="Last Name">
+        </div>
+        <div class="text">
+            <i class="material-icons md-24">Username</i><input class="form-control" autofocus type="text"
+                name="username" placeholder="Username">
+        </div>
+        <div class="text">
+            <i class="material-icons md-24">Email Address</i><input class="form-control" type="email" name="email"
+                placeholder="Email Address">
+        </div>
+        <div class="text">
+            <i class="material-icons md-24">Password</i><input class="form-control" type="password" name="password"
+                placeholder="Password">
+        </div>
+        <div class="text">
+            <i class="material-icons md-24">Password(Again)</i><input class="form-control" type="password" name="confirmation"
+                placeholder="Confirm Password">
+        </div>
+        <div class="button">
+            <input class="btn btn-danger" type="submit" value="Register">
+        </div>
+        <hr></br>
+        you already have an account please login <a href="{% url 'login' %}">Log In </a>
+    </form>
+</div>
+
+
+{% endblock %}

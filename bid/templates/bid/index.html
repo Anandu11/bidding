@@ -1,0 +1,49 @@
+{% extends "bid/layout.html" %}
+
+{% block title %}
+Active ITEMS
+{% endblock %}
+
+
+{% block body %}
+<head>
+    <style>
+        #lname{
+            font-size:28px;
+        }
+    </style>
+
+</head>
+{% for listing in listings %}
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <a href=/listingpage/{{listing.id}}> 
+            
+        <div class="panel-body"><img src="{{ listing.image.url }}" class="img-responsive" style="width:100%" alt="images"></div> 
+        
+      </div>
+    </div>
+ 
+              
+
+        <div class="col-sm-12 col-md-6 col-lg-8">
+            {% if not listing.closed %}
+                <a href=/listingpage/{{listing.id}}>
+                <div class="card-text" id="lname"style="color:red;" >{{ listing.product_name }}</div>
+                <br>
+                <p class="card-text"style="color:red;" >by {{ listing.owner }}</p>
+                <p class="card-text" style="font-family: 'Changa', sans-serif;"><strong class="text-muted">Starting
+                    Price: ₹{{ listing.price }}</strong></p>
+                <p class="card-text" style="font-family: 'Changa', sans-serif;"><strong class="text-muted">Highest
+                    Bidding: ₹{{ listing.current_price }}</strong></p>
+                <div class="panel-footer"style="color:red;">{{ listing.description }}</div>
+                <br><br>
+            {% endif %}    
+        </div>
+  </div>
+</div>
+
+{% endfor %}  
+{% endblock  %}  

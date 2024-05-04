@@ -1,0 +1,36 @@
+{% extends "bid/layout.html" %}
+
+{% block body %}
+
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+
+<div class="login-box" style="margin-left: 30px;">
+    <h2>Login</h2>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="text">
+
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+            <br>
+        </div>
+        <div class="text">
+            <i class="fas fa-key"></i>
+            <input class="form-control" type="password" name="password" placeholder="Password"><i
+        </div>
+        <br>
+        <div class="button">
+            <input class="btn btn-danger" type="submit" value="Login">
+        </div>
+
+    </form>
+    <hr></br>
+    <div class="login-link">
+        create an account to login <a href="{% url 'register' %}">Register here</a>
+    </div>
+
+</div>
+
+{% endblock %}

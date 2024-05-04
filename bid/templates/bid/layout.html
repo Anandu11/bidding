@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %} 
+  <title style="font-family:Lucida Console;">BID</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+   
+    .navbar {
+      margin-bottom: 15px;
+      border-radius: 0;
+      padding-top: 20px;
+      padding-bottom: 0px;
+    }
+    
+   
+     .jumbotron {
+      margin-bottom: 0;
+      padding-bottom: 5px;
+      padding-top: 3px;
+    }
+   
+
+    h1 {
+      font-size: 10px;
+    }
+     
+     #p1{
+       color:skyblue ;
+       font-size:20px;
+     }
+
+     #comment{
+       padding-left:10px;
+       margin-left:100px;
+       font-size:18px;
+       width: 80%;
+     }
+    
+
+    
+  </style>
+</head>
+
+<body>
+{% load static %}
+<div class="jumbotron">
+  <div class="container text-center" style="background-color: whitesmoke;">
+
+    
+    <div class="row">
+      <div class="col-md-12">
+      <h2 style="font-family:Verdana;font-size:35px;color:red;">BID</h2>
+        <p>
+        <img style="width:200px;height:200px;" src="{% static "images/b.jpeg" %}" alt="logo" />
+
+        
+
+        </p>
+      </div>
+    </div>  
+  </div>
+</div>
+
+ <nav class="navbar navbar-inverse" style="background-color:darkred">
+  
+  <div class="container-fluid">
+    </div>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul>
+        <li  style="font-size:20px"class="nav-item"><a href="{% url 'index' %}"style="color:white;" >Active items</a></li>
+        {% if user.is_authenticated %}
+        <li style="font-size:20px" class="nav-item"><a class="nav-link"style="color:white;" href="{% url 'createlisting' %}">Create Listing</a></li>        
+        <li style="font-size:20px" class="nav-item"><a class="nav-link"style="color:white;" href="{% url 'categories'  %}">Categories</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <p id="p1"style="color:white;">Signed in as <strong>{{ user.username }}</strong>.</p>  
+        {% else %}       
+        <li><a href="{% url 'login' %}"style="color:white;"><span class="glyphicon glyphicon-user"style="color:white;"></span> Login</a></li>
+        <li><a href="{% url 'register' %}"style="color:white;"><span class="glyphicon glyphicon-user"style="color:white;"></span> Register</a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}"style="color:white;"><span class="glyphicon glyphicon-sign"></span> Logout</a></li> 
+        <li><a href="{% url 'watchlistitems' %}"style="color:white;"><span class="glyphicon glyphicon-shopping-cart"></span>  Watchlist</a></li>
+      
+
+      {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+</body>
+</html>
